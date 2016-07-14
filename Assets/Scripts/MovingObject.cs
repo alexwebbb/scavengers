@@ -29,9 +29,13 @@ public abstract class MovingObject : MonoBehaviour {
         hit = Physics2D.Linecast(start, end, blockingLayer);
         boxCollider2d.enabled = true;
 
-        if (hit.transform = null)
+        if (hit.transform == null)
         {
-            // Left off at 8 minutes in the video
+            StartCoroutine (SmoothMovement (end));
+            return true;
+        } else
+        {
+            return false;
         }
     }
 
@@ -46,6 +50,21 @@ public abstract class MovingObject : MonoBehaviour {
             sqrRemainingDistance = (transform.position - end).sqrMagnitude;
             yield return null;
         }
+    }
+
+    protected virtual void AttemptedMove <T> (int xDir, int yDir) 
+        where T : Component
+    {
+        RaycastHit2D hit;
+
+        bool canMove = Move(xDir, yDir, out hit);
+
+        if (canMove) return;
+
+        T hitComponent = hit.transform.GetComponent<T>();
+
+        if (hitComponent != null) OnCantMove(hitComponent);
+
     }
 
     protected abstract void OnCantMove<T>(T component)
