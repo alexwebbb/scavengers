@@ -61,7 +61,7 @@ public class BoardManager : MonoBehaviour {
                 {
                     toInstantiate = floorTiles[Random.Range(0, floorTiles.Length)];
                 }
-                GameObject instance = (GameObject)Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity);
+                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
                 instance.transform.SetParent(boardHolder);
             }
         }
