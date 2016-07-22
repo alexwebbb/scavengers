@@ -10,11 +10,16 @@ public class Player : MovingObject {
     public int pointsPerSoda = 20;
     public float restartLevelDelay = 1f;
 
+    private int playerChopID;
+    private int playerHitID;
+
     private Animator animator;
     private int food;
 
-
 	protected override void Start () {
+
+        playerChopID = Animator.StringToHash("playerChop");
+        playerHitID = Animator.StringToHash("playerHit");
 
         animator = GetComponent<Animator>();
         food = GameManager.instance.playerFoodPoints;
@@ -48,7 +53,7 @@ public class Player : MovingObject {
 
     protected override void OnCantMove<T>(T component)
     {
-        animator.SetTrigger("playerChop");
+        animator.SetTrigger(playerChopID);
         Wall hitWall = component as Wall;
         hitWall.DamageWall(wallDamage);
     }
@@ -79,7 +84,7 @@ public class Player : MovingObject {
 
     public void LoseFood(int loss)
     {
-        animator.SetTrigger("playerHit");
+        animator.SetTrigger(playerHitID);
         food -= loss;
         CheckIfGameOver();
     }
