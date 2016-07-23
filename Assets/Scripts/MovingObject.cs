@@ -23,7 +23,7 @@ public abstract class MovingObject : MonoBehaviour {
     protected bool Move (int xDir, int yDir, out RaycastHit2D hit)
     {
         Vector2 start = transform.position;
-        Vector2 end = new Vector2(xDir, yDir);
+        Vector2 end = start + new Vector2(xDir, yDir);
 
         boxCollider2d.enabled = false;
         hit = Physics2D.Linecast(start, end, blockingLayer);
@@ -33,10 +33,8 @@ public abstract class MovingObject : MonoBehaviour {
         {
             StartCoroutine (SmoothMovement (end));
             return true;
-        } else
-        {
-            return false;
-        }
+        } 
+        return false;
     }
 
     protected IEnumerator SmoothMovement (Vector3 end)
@@ -52,18 +50,18 @@ public abstract class MovingObject : MonoBehaviour {
         }
     }
 
-    protected virtual void AttemptedMove <T> (int xDir, int yDir) 
+    protected virtual void AttemptMove <T> (int xDir, int yDir) 
         where T : Component
     {
         RaycastHit2D hit;
 
         bool canMove = Move(xDir, yDir, out hit);
 
-        if (canMove) return;
+        if (hit.transform == null) return;
 
         T hitComponent = hit.transform.GetComponent<T>();
 
-        if (hitComponent != null) OnCantMove(hitComponent);
+        if (!canMove && hitComponent != null) OnCantMove(hitComponent);
 
     }
 

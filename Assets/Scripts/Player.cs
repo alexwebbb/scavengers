@@ -32,23 +32,23 @@ public class Player : MovingObject {
     }
 	
 	void Update () {
-        if (!GameManager.instance.playerTurn) return;
+        if (!GameManager.instance.playersTurn) return;
 
         int horizontal = (int)Input.GetAxisRaw("Horizontal");
         int vertical = (int)Input.GetAxisRaw("Vertical");
 
         if (horizontal != 0) vertical = 0;
         if (horizontal != 0 || vertical != 0)
-            AttemptedMove<Wall>(horizontal, vertical);	
+            AttemptMove<Wall>(horizontal, vertical);	
 	}
 
-    protected override void AttemptedMove<T>(int xDir, int yDir)
+    protected override void AttemptMove<T>(int xDir, int yDir)
     {
         food--;
-        base.AttemptedMove<T>(xDir, yDir);
+        base.AttemptMove<T>(xDir, yDir);
         // If statement for audio here maybe?
         CheckIfGameOver();
-        GameManager.instance.playerTurn = false;
+        GameManager.instance.playersTurn = false;
     }
 
     protected override void OnCantMove<T>(T component)
