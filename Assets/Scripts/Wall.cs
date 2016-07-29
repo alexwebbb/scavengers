@@ -3,10 +3,11 @@ using System.Collections;
 
 public class Wall : MonoBehaviour {
 
-    // public AudioClip chopSound1;
-    // public AudioClip chopSound2;
     public Sprite dmgSprite;
     public int hp = 4;
+
+    public AudioClip chopSound1;
+    public AudioClip chopSound2;
 
     private SpriteRenderer spriteRenderer;
 
@@ -18,7 +19,7 @@ public class Wall : MonoBehaviour {
 
     public void DamageWall(int loss)
     {
-        // SoundManager.instance.randomizeSfx(chopSound1, chopSound2);
+        SoundManager.instance.RandomizeSoundEffects(chopSound1, chopSound2);
 
         spriteRenderer.sprite = dmgSprite;
 

@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
 
     private Text levelText;
     private GameObject levelImage;
-    private int level = 3;
+    private int level = 1;
     private List<Enemy> enemies;
     private bool enemiesMoving;
     private bool doingSetup;
@@ -22,16 +22,12 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 
-        if (instance == null)
-        {
-            instance = this;
-
-        } else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-
+        // singleton check
+        if (instance == null) instance = this;
+        else if (instance != this) Destroy(gameObject);
+        // sustains singleton between scenes
         DontDestroyOnLoad(gameObject);
+
         enemies = new List<Enemy>();
         boardScript = GetComponent<BoardManager>();
 
